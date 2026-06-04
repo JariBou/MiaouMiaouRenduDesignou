@@ -102,7 +102,6 @@ namespace DependentlyInjectYourself
                         : allBehaviours.FirstOrDefault(monoBehaviour =>
                                                            parameterInfo.ParameterType == monoBehaviour.GetType() || parameterInfo.ParameterType ==
                                                            monoBehaviour.GetType().GetCustomAttribute<DiyServiceAttribute>()?.ServiceType);
-                    // MonoBehaviour potentialService = allBehaviours.FirstOrDefault(monoBehaviour => parameterInfo.ParameterType == monoBehaviour.GetType());
                     if (potentialService != null)
                         services.TryAdd(parameterInfo.ParameterType, potentialService);
                     else
@@ -111,7 +110,6 @@ namespace DependentlyInjectYourself
                         throw new MissingServiceException(
                             $"Missing service of type '{parameterInfo.ParameterType.Name}' while resolving dependencies for Object '{behaviour.name}'");
                     }
-                    // servicesNeeded.Add(parameterInfo.ParameterType);
                 }
             }
         }
@@ -165,39 +163,9 @@ namespace DependentlyInjectYourself
                        .FirstOrDefault(info => info.GetCustomAttributes(typeof(DiyInitializerMethodAttribute), false).Any());
         }
 
-        private static void AggregateAllChildrenGameObjects(GameObject gameObject, ref List<GameObject> container)
-        {
-            container.Add(gameObject);
-            foreach (Transform t in gameObject.transform)
-            {
-                AggregateAllChildrenGameObjects(t.gameObject, ref container);
-            }
-        }
-
         private static void AggregateAllChildrenOfType<T>(GameObject gameObject, ref List<T> container) where T : Object
         {
             container.AddRange(gameObject.GetComponentsInChildren<T>(true));
-        }
-
-        private static void AggregateAllChildrenOfType<TSearch, TConstraint>(GameObject gameObject, ref List<TConstraint> container)
-            where TSearch : Object
-        {
-            TSearch[] componentsInChildren = gameObject.GetComponentsInChildren<TSearch>(true);
-            foreach (TSearch child in componentsInChildren)
-            {
-                if (child is TConstraint constraint) container.Add(constraint);
-            }
-            // container.AddRange(componentsInChildren);
-        }
-
-        private static void AggregateAllChildrenOfType<TSearch, TConstraint>(GameObject gameObject, ref List<TSearch> container) where TSearch : Object
-        {
-            TSearch[] componentsInChildren = gameObject.GetComponentsInChildren<TSearch>(true);
-            foreach (TSearch child in componentsInChildren)
-            {
-                if (child is TConstraint) container.Add(child);
-            }
-            // container.AddRange(componentsInChildren);
         }
 
         private static void DoMonoBehaviourInitialization()

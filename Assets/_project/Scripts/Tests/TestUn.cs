@@ -10,11 +10,12 @@ namespace _project.Scripts.Tests
         public bool Initialized { get; set; }
 
         [DiyInitializerMethod]
-        private void Init(Nounours nounours, IGraou graou)
+        private void Init(Nounours nounours, IGraou graou, ISteupleMarche potentialService)
         {
             Debug.Log($"== TestUn ==");
             Debug.Log($"Wahou {nounours.name}");
             Debug.Log($"WahouGrahouGrahou {graou.Test}");
+            Debug.Log($"WahouPotentialService {potentialService.GetHashCode()}");
             Debug.Log($"== ===== ==");
         }
     }
