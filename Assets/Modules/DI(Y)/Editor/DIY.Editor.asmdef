@@ -1,0 +1,18 @@
+{
+    "name": "DIY.Editor",
+    "rootNamespace": "DependentlyInjectYourself",
+    "references": [
+        "GUID:274ff81cf964bce45acace288598408e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
