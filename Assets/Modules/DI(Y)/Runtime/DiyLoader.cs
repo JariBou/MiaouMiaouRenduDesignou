@@ -5,6 +5,7 @@ using System.Reflection;
 using DependentlyInjectYourself.API;
 using DependentlyInjectYourself.Attributes;
 using DependentlyInjectYourself.Exceptions;
+using DependentlyInjectYourself.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -18,28 +19,28 @@ namespace DependentlyInjectYourself
 
         private static Dictionary<Type, object> _services;
 
-        private readonly Dictionary<Type, IDiyService> _servicesMap = new();
+        private readonly Dictionary<Type, object> _servicesMap = new();
         private static DiyLoader Instance => _instance ??= new DiyLoader();
 
 
-        private void RegisterService(Type serviceType, IDiyService serviceInstance)
+        private void RegisterService(Type serviceType, object serviceInstance)
         {
-            serviceInstance.ServiceDestroyed += () => { _servicesMap.Remove(serviceType); };
+            // serviceInstance.ServiceDestroyed += () => { _servicesMap.Remove(serviceType); };
             if (!_servicesMap.TryAdd(serviceType, serviceInstance)) Debug.LogError($"Service of type '{serviceType.Name}' already registered!");
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
-        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void Initialize()
-        {
-            Debug.Log("Initializing DiyLoader");
-
-        #if UNITY_EDITOR
-            DoMonoBehaviourInitialization();
-        #endif
-
-            SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
-        }
+        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+        // // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        // private static void Initialize()
+        // {
+        //     Debug.Log("Initializing DiyLoader");
+        //
+        // #if UNITY_EDITOR
+        // DoMonoBehaviourInitialization();
+        // #endif
+        //
+        //     SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
+        // }
 
         // For now let's just support MonoBehaviour services and same-scene services
         private static void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode mode)

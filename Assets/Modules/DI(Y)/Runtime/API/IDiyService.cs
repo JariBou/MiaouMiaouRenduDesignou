@@ -2,8 +2,8 @@
 
 namespace DependentlyInjectYourself.API
 {
-    public interface IDiyService // Useless for now
+    public interface IDiyService<TService> /*: IDisposable*/ where TService : class
     {
-        public event Action ServiceDestroyed;
+        // public event Action ServiceDestroyed;
     }
 }
