@@ -8742,6 +8742,7 @@ GameObject:
   - component: {fileID: 617711304}
   - component: {fileID: 617711303}
   - component: {fileID: 617711302}
+  - component: {fileID: 617711305}
   m_Layer: 5
   m_Name: Buffs
   m_TagString: Untagged
@@ -8831,6 +8832,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 617711300}
   m_CullTransparentMesh: 1
+--- !u!114 &617711305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617711300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50fd72b952e13f4aad46129e1eed74c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBuffs
+  prefab: {fileID: 1086076600002743330}
 --- !u!1001 &619846690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21529,6 +21543,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1440867594}
+  - component: {fileID: 1440867595}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -21557,6 +21572,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1440867595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440867593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75e4bf7857f29ab41b1cbbc464478ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
+  Buffs: {fileID: 617711305}
+  player: {fileID: 164211095928399048}
 --- !u!4 &1457257945 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 04634d4422539e74cb1dc9d424a3e149,
@@ -30016,6 +30045,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 164211095928399047}
+    - targetCorrespondingSourceObject: {fileID: 6331558144665418028, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 164211095928399048}
   m_SourcePrefab: {fileID: 100100000, guid: 8b89fdb0c71dd438b9b7b0ef242463bc, type: 3}
 --- !u!4 &164211095928399045 stripped
 Transform:
@@ -30043,6 +30076,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControlsBase
   PlayerAnims: {fileID: 854371853}
   speed: 500
+--- !u!114 &164211095928399048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164211095928399046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 170c603add1feb047af4901041a18318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
+  BaseAttack: 1
+  BaseDefense: 10
+  NumAlterationsMax: 10
+  debugAlteration: {fileID: 11400000, guid: 25a8acb0f33658c43bacd1a238d7c4b3, type: 2}
 --- !u!1001 &316894929158137843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30119,45 +30168,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 617711301}
     m_Modifications:
+    - target: {fileID: 49185571517519393, guid: d4a7dc4f89f11434b887244923697801,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1044581095285187013, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1044581095285187013, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1044581095285187013, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 131.35
       objectReference: {fileID: 0}
     - target: {fileID: 1044581095285187013, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 35.76
       objectReference: {fileID: 0}
     - target: {fileID: 1044581095285187013, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 75.675
       objectReference: {fileID: 0}
     - target: {fileID: 1044581095285187013, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 5315097849386006753, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 151.35
       objectReference: {fileID: 0}
     - target: {fileID: 5315097849386006753, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 55.76
       objectReference: {fileID: 0}
     - target: {fileID: 6506174882882194231, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
@@ -30262,13 +30316,25 @@ PrefabInstance:
     - target: {fileID: 6968446377133367964, guid: d4a7dc4f89f11434b887244923697801,
         type: 3}
       propertyPath: m_Name
-      value: BuffPanel
+      value: Inst_Buff
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a7dc4f89f11434b887244923697801, type: 3}
+--- !u!114 &1086076600002743330 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3037419962606181107, guid: d4a7dc4f89f11434b887244923697801,
+    type: 3}
+  m_PrefabInstance: {fileID: 1086076600002743327}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3683798429afde440977df01ac80f7f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Buff
 --- !u!1001 &8442608006150770294
 PrefabInstance:
   m_ObjectHideFlags: 0
