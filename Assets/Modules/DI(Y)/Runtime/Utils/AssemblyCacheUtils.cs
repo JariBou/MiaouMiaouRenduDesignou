@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace DependentlyInjectYourself
+namespace DependentlyInjectYourself.Utils
 {
     public static class AssemblyCacheUtils
     {
