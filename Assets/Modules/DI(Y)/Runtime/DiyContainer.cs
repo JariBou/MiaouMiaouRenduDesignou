@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using DependentlyInjectYourself.API;
 using DependentlyInjectYourself.Exceptions;
 
+[assembly: InternalsVisibleTo("DIY.Editor")]
 namespace DependentlyInjectYourself
 {
     public struct ServiceEntry
@@ -10,11 +13,11 @@ namespace DependentlyInjectYourself
         public readonly ServiceLifetime lifetime;
         public readonly Type serviceType;
         [Obsolete] public readonly Type objectType;
-        public object ServiceInstance { get; private set; }
-        public readonly Func<object> serviceGetter; // TODO
+        public IDiyService ServiceInstance { get; private set; }
+        public readonly Func<IDiyService> serviceGetter; // TODO
         public bool Resolved { get; private set; }
 
-        public ServiceEntry(Type serviceType, object serviceInstance)
+        public ServiceEntry(Type serviceType, IDiyService serviceInstance)
         {
             this.serviceType = serviceType;
             ServiceInstance = serviceInstance;
@@ -24,7 +27,8 @@ namespace DependentlyInjectYourself
             serviceGetter = () => serviceInstance;
         }
         
-        public ServiceEntry(Type serviceType, Func<object> serviceGetter, ServiceLifetime lifetime = ServiceLifetime.Transient)
+        //TODO:  change object to IDiyService
+        public ServiceEntry(Type serviceType, Func<IDiyService> serviceGetter, ServiceLifetime lifetime = ServiceLifetime.Transient)
         {
             this.serviceType = serviceType;
             
@@ -99,33 +103,33 @@ namespace DependentlyInjectYourself
         
         internal Dictionary<Type, ServiceEntry> _services = new (); // TODO: support arrays of injections
         
-        public static void AddService<TObject>() where TObject : class, new()
+        public static void AddService<TObject>() where TObject : class, IDiyService, new()
         {
             AddService<TObject, TObject>();
         }
         
-        public static void AddService<TService, TObject>() where TObject : TService, new() where TService : class
+        public static void AddService<TService, TObject>() where TObject : TService, IDiyService, new() where TService : class
         {
             // TODO: Remove new() constraint and add constructor lookup
             Instance._services.Add(typeof(TService), new ServiceEntry(typeof(TService), new TObject()));
         }
 
-        public static void AddService<TObject>(TObject service) where TObject : class
+        public static void AddService<TObject>(TObject service) where TObject : class, IDiyService
         {
             AddService<TObject, TObject>(service);
         }
 
-        public static void AddService<TService, TObject>(TObject service) where TObject : TService where TService : class
+        public static void AddService<TService, TObject>(TObject service) where TObject : TService where TService : class, IDiyService
         {
             Instance._services.Add(typeof(TService), new ServiceEntry(typeof(TService), service));
         }
         
-        public static void AddService(Type serviceType, object service)
+        public static void AddService(Type serviceType, IDiyService service)
         {
             Instance._services.Add(serviceType, new ServiceEntry(serviceType, service));
         }
         
-        public static bool TryAddService(Type serviceType, object service)
+        public static bool TryAddService(Type serviceType, IDiyService service)
         {
             return Instance._services.TryAdd(serviceType, new ServiceEntry(serviceType, service));
         }
@@ -135,7 +139,7 @@ namespace DependentlyInjectYourself
             return Instance._services.TryAdd(service.serviceType, service);
         }
         
-        public static bool TryAddService(Type serviceType, Func<object> service)
+        public static bool TryAddService(Type serviceType, Func<IDiyService> service)
         {
             return Instance._services.TryAdd(serviceType, new ServiceEntry(serviceType, service));
         }
@@ -202,6 +206,16 @@ namespace DependentlyInjectYourself
             entry.Resolve();
 
             return entry.GetService();
+        }
+
+        internal static void Reset()
+        {
+            _instance._services.Clear();
+        }
+
+        internal static Dictionary<Type, ServiceEntry> GetAllServices()
+        {
+            return _instance._services;
         }
     }
 }

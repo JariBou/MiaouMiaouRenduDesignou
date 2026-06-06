@@ -1,5 +1,6 @@
 ﻿using System;
 using DependentlyInjectYourself;
+using DependentlyInjectYourself.API;
 using DependentlyInjectYourself.Attributes;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Modules.DI_Y_.Tests
     }
     
     [DiyService(typeof(IMyService)/*, serviceLifetime: ServiceLifetime.Transient*/)]
-    public class TestNonBehaviour : IMyService
+    public class TestNonBehaviour : IMyService, IDiyService
     {
         [CanBeNull] private TestDiyOne _test;
         public int TestInt { get => _test?.TestValue ?? -1; }
@@ -37,5 +38,11 @@ namespace Modules.DI_Y_.Tests
         // {
         //     _test = test;
         // }
+        public event Action ServiceDestroyed;
+
+        ~TestNonBehaviour()
+        {
+            ServiceDestroyed?.Invoke();
+        }
     }
 }

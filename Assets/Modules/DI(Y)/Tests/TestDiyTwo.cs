@@ -1,12 +1,11 @@
 ﻿using System;
-using DependentlyInjectYourself;
 using DependentlyInjectYourself.API;
 using DependentlyInjectYourself.Attributes;
 using UnityEngine;
 
 namespace Modules.DI_Y_.Tests
 {
-    public class TestDiyTwo : MonoBehaviour, IDiyLoaded
+    public class TestDiyTwo : MonoBehaviour, IDiyService
     {
         private TestDiyOne _test;
         private TestNonBehaviour _service;
@@ -52,5 +51,11 @@ namespace Modules.DI_Y_.Tests
             // }
         }
 
+        public event Action ServiceDestroyed;
+        
+        private void OnDestroy()
+        {
+            ServiceDestroyed?.Invoke();
+        }
     }
 }

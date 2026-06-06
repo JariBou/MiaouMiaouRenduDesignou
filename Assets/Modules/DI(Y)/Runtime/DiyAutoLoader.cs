@@ -50,7 +50,7 @@ namespace DependentlyInjectYourself
 
                 // object instance = constructorInfo.Invoke(null);
                 Type serviceType = attribute.ServiceType ?? sType;
-                if (!DiyContainer.TryAddService(new ServiceEntry(serviceType, () => constructorInfo.Invoke(null), attribute.ServiceLifetime)))
+                if (!DiyContainer.TryAddService(new ServiceEntry(serviceType, () => constructorInfo.Invoke(null) as IDiyService, attribute.ServiceLifetime)))
                 {
                     Debug.LogWarning($"Duplicate service of type '{sType}' found in services!");
                 }
@@ -64,15 +64,14 @@ namespace DependentlyInjectYourself
 
         private static void DoMonoBehaviourInitialization(MonoBehaviour[] allBehaviours)
         {
-            
-
+            // For now, we only support direct implementation
             Dictionary<Type, MonoBehaviour> servicesBehaviours = allBehaviours.Where(behaviour => behaviour.GetType()
                                                                                                            .GetInterfaces()
                                                                                                            .Any(type => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDiyService<>)))
                                                                               .ToDictionary(behaviour => behaviour.GetType());
 
-            MonoBehaviour[] diyLoadedBehaviours =
-                allBehaviours.Where(behaviour => behaviour.GetType().GetInterfaces().Contains(typeof(IDiyLoaded))).ToArray();
+            MonoBehaviour[] noSpeServicesBehaviour =
+                allBehaviours.Where(behaviour => behaviour.GetType().GetInterfaces().Contains(typeof(IDiyService))).ToArray();
 
             foreach ((Type instanceType, MonoBehaviour obj) in servicesBehaviours)
             {
@@ -84,17 +83,30 @@ namespace DependentlyInjectYourself
                     continue;
                 }
 
-                Type serviceType = genericInterface.GetGenericArguments()[0];
-                if (!DiyContainer.TryAddService(serviceType, obj))
+                if (obj is not IDiyService service)
                 {
-                    Debug.LogError($"{typeof(DiyAutoLoader)}::{nameof(DoMonoBehaviourInitialization)}::Error while trying to inject object of type '{instanceType}' in Container");
+                    Debug.LogError($"{typeof(DiyAutoLoader)}::{nameof(DoMonoBehaviourInitialization)}::Invalid type in object '{obj.name}' of type '{instanceType}': Missing '{nameof(IDiyService)}' interface");
+                    continue;
+                }
+                Type serviceType = genericInterface.GetGenericArguments()[0];
+                if (!DiyContainer.TryAddService(serviceType, service))
+                {
+                    Debug.LogError($"{typeof(DiyAutoLoader)}::{nameof(DoMonoBehaviourInitialization)}::Error while trying to inject object of type '{instanceType}' in Container : duplicate");
                 }
             }
             
-            foreach (MonoBehaviour diyLoadedBehaviour in diyLoadedBehaviours)
+            foreach (MonoBehaviour diyLoadedBehaviour in noSpeServicesBehaviour)
             {
                 Type type = diyLoadedBehaviour.GetType();
-                DiyContainer.TryAddService(type, diyLoadedBehaviour);
+                if (diyLoadedBehaviour is not IDiyService service)
+                {
+                    Debug.LogError($"{typeof(DiyAutoLoader)}::{nameof(DoMonoBehaviourInitialization)}::Invalid type in object '{diyLoadedBehaviour.name}' of type '{type}': Missing '{nameof(IDiyService)}' interface");
+                    continue;
+                }
+                if (!DiyContainer.TryAddService(type, service))
+                {
+                    Debug.LogError($"{typeof(DiyAutoLoader)}::{nameof(DoMonoBehaviourInitialization)}::Error while trying to inject object of type '{type}' in Container : duplicate");
+                }
             }
         }
 

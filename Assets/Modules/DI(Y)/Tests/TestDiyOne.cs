@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Modules.DI_Y_.Tests
 {
-    public class TestDiyOne : MonoBehaviour, IDiyLoaded, IDiyService<TestDiyOne>
+    public class TestDiyOne : MonoBehaviour, IDiyService<TestDiyOne>
     {
         [SerializeField] private int _testValue;
         private TestNonBehaviour _service;
@@ -44,5 +44,11 @@ namespace Modules.DI_Y_.Tests
         }
 
         public bool Initialized { get; set; }
+        public event Action ServiceDestroyed;
+        
+        private void OnDestroy()
+        {
+            ServiceDestroyed?.Invoke();
+        }
     }
 }
