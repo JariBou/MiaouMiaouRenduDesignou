@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _project.Scripts.Player
+namespace _project.Scripts.Game.Interfaces
 {
     public interface IShootTarget
     {

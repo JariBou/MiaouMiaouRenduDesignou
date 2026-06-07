@@ -1,4 +1,5 @@
-﻿using Sisus.Init;
+﻿using _project.Scripts.Game.Interfaces;
+using Sisus.Init;
 using UnityEngine;
 
 namespace _project.Scripts.Player

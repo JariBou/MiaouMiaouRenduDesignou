@@ -1,5 +1,6 @@
 ﻿using System;
 using _project.Scripts.Game;
+using _project.Scripts.Game.Interfaces;
 using UnityEngine;
 
 namespace _project.Scripts.Player

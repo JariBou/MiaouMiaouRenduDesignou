@@ -1,4 +1,5 @@
 ﻿using _project.Scripts.Alterable;
+using _project.Scripts.Game.Interfaces;
 using UnityEngine;
 
 namespace _project.Scripts.Player

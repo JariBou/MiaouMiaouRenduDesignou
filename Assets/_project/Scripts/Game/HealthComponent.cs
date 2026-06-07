@@ -1,5 +1,7 @@
 ﻿using _project.Scripts.Alterable;
+using _project.Scripts.Game.Interfaces;
 using _project.Scripts.Player;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace _project.Scripts.Game
@@ -29,9 +31,9 @@ namespace _project.Scripts.Game
             if (hasIFrames) return;
 
             if (_ownerStats) damageAmount -= _ownerStats.GetFinalStat(BaseDef, StatType.Def);
+            if (damageAmount < 0) return;
             hasIFrames = true;
             _ = DoInvincibilityTimer();
-            if (damageAmount < 0) return;
 
             currHealth -= damageAmount;
             PlayDmgAnim();
@@ -40,6 +42,8 @@ namespace _project.Scripts.Game
 
         private void PlayDmgAnim()
         {
+            if (_animator == null) return;
+            
             _animator.SetTrigger(hit);
         }
 
