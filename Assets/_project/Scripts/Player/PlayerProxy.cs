@@ -1,28 +1,23 @@
 ﻿using System;
+using _project.Scripts.Game;
 using UnityEngine;
 
 namespace _project.Scripts.Player
 {
-    public class PlayerProxy : MonoBehaviour, IShootTarget, IDamageable
+    public class PlayerProxy : HealthComponentProxy, IShootTarget
     {
-        [SerializeField] private PlayerScript _playerScript;
 
         private void Start()
         {
-            if (_playerScript == null)
+            if (healthComponent == null)
             {
-                throw new NullReferenceException("PlayerScript is missing");
+                throw new NullReferenceException("HealthComponent is missing");
             }
-        }
-
-        public void TakeDamage(int damage)
-        {
-            _playerScript.TakeDamage(damage);
         }
 
         public Vector3 GetAimPosition()
         {
-            return _playerScript.transform.position;
+            return healthComponent.transform.position;
         }
     }
 }

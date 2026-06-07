@@ -73,6 +73,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec3da66061dcb8548b506fe5bd8ed024, type: 3}
+--- !u!95 &5389989245478962096 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8231533210879514318, guid: ec3da66061dcb8548b506fe5bd8ed024,
+    type: 3}
+  m_PrefabInstance: {fileID: 4103150341157999998}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7720622359045541319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6040585352637831353, guid: ec3da66061dcb8548b506fe5bd8ed024,
@@ -198,6 +204,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 937849771434018343}
+    - targetCorrespondingSourceObject: {fileID: 6331558144665418028, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2330564348685482354}
+    - targetCorrespondingSourceObject: {fileID: 126719504334403983, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1532763886208029059}
   m_SourcePrefab: {fileID: 100100000, guid: 8b89fdb0c71dd438b9b7b0ef242463bc, type: 3}
 --- !u!1 &1979136645898436435 stripped
 GameObject:
@@ -238,10 +252,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ca8771f7054864698654d8fc141838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.ShootOnRange
-  _bulletPoolToUseName: bullet_pool
+  _poolDefinitionToUse: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+    type: 2}
   _shootCooldown: 2.5
   _shootDirOffsetAmount: 0.8
   _shootOffset: {x: 0, y: 1.5, z: 0}
+--- !u!114 &2330564348685482354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979136645898436435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dbbbbbecceb4d1ea22cfeb87600f9ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.HealthComponent
+  _animator: {fileID: 5389989245478962096}
+  _baseMaxHealth: 20
+  _invincibilityTime: 1
+--- !u!1 &5578634385823875056 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 126719504334403983, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 5524079308583765631}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1532763886208029059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5578634385823875056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9394b9a7a05449ff848537d34a4b649d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.HealthComponentProxy
+  healthComponent: {fileID: 2330564348685482354}
 --- !u!4 &5943897753975625083 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2221839628788110084, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,

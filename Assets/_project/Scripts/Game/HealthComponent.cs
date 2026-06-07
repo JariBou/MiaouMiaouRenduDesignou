@@ -1,29 +1,25 @@
-﻿using System;
-using Sisus.Init;
+﻿using _project.Scripts.Player;
 using UnityEngine;
 
-namespace _project.Scripts.Player
+namespace _project.Scripts.Game
 {
-    [Service]
-    public class PlayerScript : MonoBehaviour, IDamageable
+    public class HealthComponent : MonoBehaviour, IDamageable
     {
         private static readonly int hit = Animator.StringToHash("Hit");
         
-        [SerializeField] private Animator _playerAnimator;
+        [SerializeField] private Animator _animator;
         [SerializeField] private int _baseMaxHealth;
         [SerializeField] private float _invincibilityTime = 1f;
-        
+        private bool hasIFrames;
         private int currMaxHealth;
         private int currHealth;
-
-        private bool hasIFrames = false;
-
+        
         private void Awake()
         {
             currMaxHealth = _baseMaxHealth;
             currHealth = _baseMaxHealth;
         }
-
+        
         public void TakeDamage(int damageAmount)
         {
             if (hasIFrames) return;
@@ -34,25 +30,23 @@ namespace _project.Scripts.Player
             CheckDeath();
         }
 
+        private void PlayDmgAnim()
+        {
+            _animator.SetTrigger(hit);
+        }
+
         private async Awaitable DoInvincibilityTimer()
         {
             await Awaitable.WaitForSecondsAsync(_invincibilityTime);
             hasIFrames = false;
         }
-
+        
         private void CheckDeath()
         {
             if (currHealth <= 0)
             {
                 Destroy(gameObject);
-                Debug.Log("Player Death");
             }
         }
-        
-        private void PlayDmgAnim()
-        {
-            _playerAnimator.SetTrigger(hit);
-        }
-
     }
 }

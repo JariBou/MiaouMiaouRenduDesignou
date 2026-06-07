@@ -155,4 +155,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.SimpleBullet
   _rb: {fileID: 1824004431544435161}
   _damageAmount: 1
-  _bulletSpeed: 4
+  _bulletSpeed: 8

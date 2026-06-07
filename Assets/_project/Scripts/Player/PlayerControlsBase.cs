@@ -13,40 +13,38 @@ public class PlayerControlsBase : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PlayerDmg();
     }
 
     private void OnEnable()
     {
         Debug.Log("Setup controls");
         _NavMeshAgent = GetComponent<NavMeshAgent>();
-        if (PlayerActions == null)
-            PlayerActions = new Controls();
+        PlayerActions ??= new Controls();
         PlayerActions.Game.Enable();
-        PlayerActions.Game.Move.performed += ctx => PlayerMove(ctx);
-        PlayerActions.Game.Move.canceled += ctx => direction = Vector2.zero;
+        PlayerActions.Game.Move.performed += PlayerMove;
+        PlayerActions.Game.Move.canceled += OnMoveOnCanceled;
 
-        PlayerActions.Game.Attack.performed += ctx => PlayerAttack();
+        PlayerActions.Game.Attack.performed += PlayerAttack;
+    }
+
+    private void OnMoveOnCanceled(InputAction.CallbackContext ctx)
+    {
+        direction = Vector2.zero;
     }
 
     private void OnDisable()
     {
-        PlayerActions.Game.Move.performed -= ctx => PlayerMove(ctx);
-        PlayerActions.Game.Move.canceled -= ctx => direction = Vector2.zero;
-        PlayerActions.Game.Attack.performed -= ctx => PlayerAttack();
+        PlayerActions.Game.Move.performed -= PlayerMove;
+        PlayerActions.Game.Move.canceled -= OnMoveOnCanceled;
+        PlayerActions.Game.Attack.performed -= PlayerAttack;
         PlayerActions.Game.Disable();
     }
 
-    private void PlayerAttack()
+    private void PlayerAttack(InputAction.CallbackContext callbackContext)
     {
         PlayerAnims.SetTrigger("Attack");
     }
-
-    private void PlayerDmg()
-    {
-        PlayerAnims.SetTrigger("Hit");
-    }
-
+    
     private void PlayerDie()
     {
         PlayerAnims.SetTrigger("Die");

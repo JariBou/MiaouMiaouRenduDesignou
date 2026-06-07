@@ -1843,7 +1843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b58353f5144e31bfe0a57d4d08be82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Player.PlayerProxy
-  _playerScript: {fileID: 164211095928399050}
+  healthComponent: {fileID: 164211095928399053}
 --- !u!1001 &104550147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2706,6 +2706,48 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d68d1e38da0311479c8004fc150be37, type: 3}
+--- !u!1 &163025597 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5656386187803181888, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 164211095928399044}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &163025601
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163025597}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6855750626627074973, guid: 3c4e5e8d247f0b54d80609b1ce1a7356, type: 3}
+--- !u!114 &163025602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163025597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a9cd42d79c548f8a44d26ede028a259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Player.PlayerWeapon
+  _ownerHitbox: {fileID: 99497942}
+  _damageAmount: 10
 --- !u!4 &163212456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5d68d1e38da0311479c8004fc150be37,
@@ -15042,12 +15084,6 @@ PrefabInstance:
       propertyPath: _drawDebugGizmo
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      propertyPath: _poolDefinitionToUse
-      value: 
-      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
-        type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30138,11 +30174,19 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6331558144665418028, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 164211095928399050}
+      addedObject: {fileID: 164211095928399053}
     - targetCorrespondingSourceObject: {fileID: 126719504334403983, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 99497945}
+    - targetCorrespondingSourceObject: {fileID: 5656386187803181888, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 163025601}
+    - targetCorrespondingSourceObject: {fileID: 5656386187803181888, guid: 8b89fdb0c71dd438b9b7b0ef242463bc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 163025602}
   m_SourcePrefab: {fileID: 100100000, guid: 8b89fdb0c71dd438b9b7b0ef242463bc, type: 3}
 --- !u!4 &164211095928399045 stripped
 Transform:
@@ -30170,7 +30214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControlsBase
   PlayerAnims: {fileID: 854371853}
   speed: 500
---- !u!114 &164211095928399050
+--- !u!114 &164211095928399053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30179,10 +30223,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 164211095928399046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b96888f2ccbe40ccadb59aad1ddd7e37, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dbbbbbecceb4d1ea22cfeb87600f9ba, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Player.PlayerScript
+  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.HealthComponent
+  _animator: {fileID: 854371853}
   _baseMaxHealth: 50
+  _invincibilityTime: 1
 --- !u!1001 &316894929158137843
 PrefabInstance:
   m_ObjectHideFlags: 0

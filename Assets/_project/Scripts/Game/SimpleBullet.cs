@@ -10,6 +10,7 @@ namespace _project.Scripts.Game
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private int _damageAmount = 1;
         [SerializeField] private float _bulletSpeed = 1;
+        [SerializeField, Tooltip("Deactivate bullet after s")] private float _maxFlightTime = 15;
         
         private float flightTime;
 
@@ -37,7 +38,7 @@ namespace _project.Scripts.Game
             if (!gameObject.activeSelf) return; // Justin Case
             
             flightTime += Time.fixedDeltaTime;
-            if (flightTime > 15)
+            if (flightTime > _maxFlightTime)
             {
                 gameObject.SetActive(false);
             }
