@@ -1,143 +1,147 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-[Serializable]
-public class Alterable 
+namespace _project.Scripts.Alterable
 {
-    List<S_Alteration> Alterations = new List<S_Alteration>();
-    CancellationTokenSource Source;
+    [Serializable]
+    public class Alterable
+    {
+        private List<Alteration> alterations = new();
+        private int counter = 1;
 
-    public UnityAction<S_Alteration> OnAddAlteration,OnRemoveAlteration;
-    int counter = 1;
+        public UnityAction<Alteration> onAddAlteration, onRemoveAlteration;
+        private CancellationTokenSource source;
 
-    public void SetUpNewSource()
-    {
-        Source = new CancellationTokenSource();
-    }
-    public int NumAlterations()
-    {
-        return Alterations.Count;
-    }
-    public void AddModifier(S_Alteration InAlteration)
-    {
-        //Alteration Copy = ScriptableObject.Instantiate(InAlteration);
-        if (!IsValidAlteration(InAlteration))
+        public void SetUpNewSource()
         {
-            Debug.LogWarning("Invalid Alteration");
-            return;
+            source = new CancellationTokenSource();
         }
-        counter += 1;
-        InAlteration.ID = counter;
-        if(Alterations.Exists(alteration => alteration.ID == InAlteration.ID))
+
+        public int NumAlterations()
         {
-            Debug.Log("Modifier with id " + InAlteration.ID + " already exists");
-            return;
+            return alterations.Count;
         }
-        Debug.Log("Adding alteration: " + InAlteration);
-        Alterations.Add(InAlteration);
-        if(InAlteration.timer > 0)
+
+        public void AddModifier(Alteration inAlteration)
         {
-            Debug.Log("With timer of: " + InAlteration.timer);
-            if (Source ==  null || Source.IsCancellationRequested)
-                SetUpNewSource();
-            CancellationToken cancellationToken = Source.Token;
-            _ = ModifierTimerAsync(InAlteration, cancellationToken);
-        }
-        OnAddAlteration?.Invoke(InAlteration);
-    }
-
-    private bool IsValidAlteration(S_Alteration inAlteration)
-    {
-        if(inAlteration.ID < 0) return false;
-        return true;
-    }
-
-    async Awaitable ModifierTimerAsync(S_Alteration alteration, CancellationToken inToken)
-    {
-        await Awaitable.WaitForSecondsAsync(alteration.timer, inToken);
-        Debug.Log("Timer done");
-        if(Alterations.Exists(item_alteration => item_alteration.ID == alteration.ID))
-        {
-            RemoveModifier(alteration);
-        }
-        
-    }
-    
-    public void CancelAll()
-    {
-        Source.Cancel();
-        Source.Dispose();
-    }
-
-    public void RemoveModifier(S_Alteration InAlteration)
-    {
-        Alterations.Remove(InAlteration);
-        OnRemoveAlteration?.Invoke(InAlteration);
-    }
-
-    public void RemoveLastModifier()
-    {
-        OnRemoveAlteration?.Invoke(Alterations.Last());
-        Alterations.Remove(Alterations.Last());
-    }
-
-    public void RemoveRandomModifier()
-    {
-        int i = UnityEngine.Random.Range(0, Alterations.Count);
-        OnRemoveAlteration?.Invoke(Alterations[i]);
-        Alterations.RemoveAt(i);
-    }
-
-
-    public float GetFinalValue(float inValue, StatType type)
-    {
-        foreach (var item in Alterations.Where(n => n.statType == type))
-        {
-            switch (item.type)
+            //Alteration Copy = ScriptableObject.Instantiate(InAlteration);
+            if (!IsValidAlteration(inAlteration))
             {
-                case AlterationType.Addition:
-                    inValue = AdditionAlteration(inValue, item.amount);
-                    break;
-                case AlterationType.Multiplication:
-                    inValue = MultiplicationAlteration(inValue, item.amount);
-                    break;
-                default:
-                    Debug.Log("Modifier with id " + item.ID + " doesnt have a proper modifier");
-                    break;
+                Debug.LogWarning("Invalid Alteration");
+                return;
             }
+
+            counter += 1;
+            inAlteration.ID = counter;
+            if (alterations.Exists(alteration => alteration.ID == inAlteration.ID))
+            {
+                Debug.Log("Modifier with id " + inAlteration.ID + " already exists");
+                return;
+            }
+
+            Debug.Log("Adding alteration: " + inAlteration);
+            alterations.Add(inAlteration);
+            if (inAlteration.timer > 0)
+            {
+                Debug.Log("With timer of: " + inAlteration.timer);
+                if (source == null || source.IsCancellationRequested) SetUpNewSource();
+                CancellationToken cancellationToken = source.Token;
+                _ = ModifierTimerAsync(inAlteration, cancellationToken);
+            }
+
+            onAddAlteration?.Invoke(inAlteration);
         }
-        return inValue;
+
+        private bool IsValidAlteration(Alteration inAlteration)
+        {
+            if (inAlteration.ID < 0) return false;
+
+            return true;
+        }
+
+        private async Awaitable ModifierTimerAsync(Alteration alteration, CancellationToken inToken)
+        {
+            await Awaitable.WaitForSecondsAsync(alteration.timer, inToken);
+            Debug.Log("Timer done");
+            if (alterations.Exists(itemAlteration => itemAlteration.ID == alteration.ID)) RemoveModifier(alteration);
+        }
+
+        public void CancelAll()
+        {
+            source.Cancel();
+            source.Dispose();
+        }
+
+        public void RemoveModifier(Alteration inAlteration)
+        {
+            alterations.Remove(inAlteration);
+            onRemoveAlteration?.Invoke(inAlteration);
+        }
+
+        public void RemoveLastModifier()
+        {
+            onRemoveAlteration?.Invoke(alterations.Last());
+            alterations.Remove(alterations.Last());
+        }
+
+        public void RemoveRandomModifier()
+        {
+            int i = Random.Range(0, alterations.Count);
+            onRemoveAlteration?.Invoke(alterations[i]);
+            alterations.RemoveAt(i);
+        }
+
+
+        public float GetFinalValue(float inValue, StatType type)
+        {
+            foreach (Alteration item in alterations.Where(n => n.statType == type))
+            {
+                switch (item.type)
+                {
+                    case AlterationType.Addition:
+                        inValue = AdditionAlteration(inValue, item.amount);
+                        break;
+                    case AlterationType.Multiplication:
+                        inValue = MultiplicationAlteration(inValue, item.amount);
+                        break;
+                    default:
+                        Debug.Log("Modifier with id " + item.ID + " doesnt have a proper modifier");
+                        break;
+                }
+            }
+
+            return inValue;
+        }
+
+        private float AdditionAlteration(float inValue, float amount)
+        {
+            float result = inValue + amount;
+            Debug.Log("Addition: " + inValue + " + " + amount + " = " + result);
+            return result;
+        }
+
+        private float MultiplicationAlteration(float inValue, float amount)
+        {
+            float result = inValue * amount;
+            Debug.Log("Multiplication: " + inValue + " * " + amount + " = " + result);
+            return result;
+        }
     }
 
-    private float AdditionAlteration(float inValue, float amount)
+    public enum AlterationType
     {
-        float result = inValue + amount;
-        Debug.Log("Addition: " + inValue + " + " + amount + " = " + result);
-        return result;
+        Addition,
+        Multiplication,
     }
 
-    private float MultiplicationAlteration(float inValue, float amount)
+    public enum StatType
     {
-        float result = inValue * amount;
-        Debug.Log("Multiplication: " + inValue + " * " + amount + " = " + result);
-        return result;
+        Attack,
+        Def,
     }
-}
-public enum AlterationType
-{
-    Addition,
-    Multiplication,
-}
-
-public enum StatType
-{
-    Attack,
-    Def,
 }

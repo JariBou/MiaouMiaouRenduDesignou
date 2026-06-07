@@ -1,51 +1,53 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
+using _project.Scripts.Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class UIBuffs : MonoBehaviour
+namespace _project.Scripts.Alterable
 {
-    [SerializeField] Buff prefab;
-
-    List<Buff> children = new List<Buff>();
-    private PlayerStatus _player;
-
-    public bool Link(PlayerStatus player)
+    public class UIBuffs : MonoBehaviour
     {
-        Debug.Log("Linking UI with player");
-        if(player == null) 
-            return false;
-        Debug.Log("Link valid");
-        _player = player;
+        [FormerlySerializedAs("prefab"),SerializeField] private Buff _prefab;
+        private PlayerStatus player;
 
-        _player.getAlterables().OnAddAlteration += AddUIBuff;
-        _player.getAlterables().OnRemoveAlteration += RemoveUIBuff;
+        private readonly List<Buff> children = new();
 
-        return true;
+        private void OnDisable()
+        {
+            player.GetAlterables().onAddAlteration -= AddUIBuff;
+            player.GetAlterables().onRemoveAlteration -= RemoveUIBuff;
+        }
 
-    }
+        public bool Link(PlayerStatus playerStatus)
+        {
+            Debug.Log("Linking UI with player");
+            if (playerStatus == null) return false;
 
-    private void OnDisable()
-    {
-        _player.getAlterables().OnAddAlteration -= AddUIBuff;
-        _player.getAlterables().OnRemoveAlteration -= RemoveUIBuff;
-    }
-    private void AddUIBuff(S_Alteration arg0)
-    {
-        Debug.Log("Add buff to UI");
-        var tmp = Instantiate(prefab, transform);
-        tmp.LinkedAlteration(arg0);
-        children.Add(tmp);
+            Debug.Log("Link valid");
+            this.player = playerStatus;
 
-    }
+            this.player.GetAlterables().onAddAlteration += AddUIBuff;
+            this.player.GetAlterables().onRemoveAlteration += RemoveUIBuff;
 
-    private void RemoveUIBuff(S_Alteration arg0)
-    {
-        Debug.Log("Remove buff to UI");
-        var child = children.Find(n => n.GetID() == arg0.ID);
-        if (child == null)
-            return;
-        children.Remove(child);
-        Destroy(child.gameObject);
+            return true;
+        }
+
+        private void AddUIBuff(Alteration arg0)
+        {
+            Debug.Log("Add buff to UI");
+            Buff tmp = Instantiate(_prefab, transform);
+            tmp.LinkedAlteration(arg0);
+            children.Add(tmp);
+        }
+
+        private void RemoveUIBuff(Alteration arg0)
+        {
+            Debug.Log("Remove buff to UI");
+            Buff child = children.Find(n => n.GetID() == arg0.ID);
+            if (child == null) return;
+
+            children.Remove(child);
+            Destroy(child.gameObject);
+        }
     }
 }

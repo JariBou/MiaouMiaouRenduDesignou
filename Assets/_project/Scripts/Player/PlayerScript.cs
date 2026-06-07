@@ -1,5 +1,4 @@
-﻿using System;
-using Sisus.Init;
+﻿using Sisus.Init;
 using UnityEngine;
 
 namespace _project.Scripts.Player
@@ -8,15 +7,15 @@ namespace _project.Scripts.Player
     public class PlayerScript : MonoBehaviour, IDamageable
     {
         private static readonly int hit = Animator.StringToHash("Hit");
-        
+
         [SerializeField] private Animator _playerAnimator;
         [SerializeField] private int _baseMaxHealth;
         [SerializeField] private float _invincibilityTime = 1f;
-        
-        private int currMaxHealth;
         private int currHealth;
 
-        private bool hasIFrames = false;
+        private int currMaxHealth;
+
+        private bool hasIFrames;
 
         private void Awake()
         {
@@ -27,6 +26,7 @@ namespace _project.Scripts.Player
         public void TakeDamage(int damageAmount)
         {
             if (hasIFrames) return;
+
             hasIFrames = true;
             _ = DoInvincibilityTimer();
             currHealth -= damageAmount;
@@ -48,11 +48,10 @@ namespace _project.Scripts.Player
                 Debug.Log("Player Death");
             }
         }
-        
+
         private void PlayDmgAnim()
         {
             _playerAnimator.SetTrigger(hit);
         }
-
     }
 }

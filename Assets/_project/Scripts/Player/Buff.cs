@@ -1,24 +1,26 @@
-using System;
+using _project.Scripts.Alterable;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Serialization;
 
-public class Buff : MonoBehaviour
+namespace _project.Scripts.Player
 {
-    [SerializeField] TMPro.TextMeshProUGUI textName;
-
-    S_Alteration linkedAlteration;
-
-    internal void LinkedAlteration(S_Alteration arg0)
+    public class Buff : MonoBehaviour
     {
-        linkedAlteration = arg0;
-        textName.text = arg0.statType.ToString() + " : " + arg0.amount;
-    }
+        [FormerlySerializedAs("textName"),SerializeField] private TextMeshProUGUI _textName;
 
-    public int GetID()
-    {
-       // Debug.Log("GetID: " + linkedAlteration.ID);
-        return linkedAlteration.ID;
+        private Alteration linkedAlteration;
+
+        internal void LinkedAlteration(Alteration arg0)
+        {
+            linkedAlteration = arg0;
+            _textName.text = arg0.statType + " : " + arg0.amount;
+        }
+
+        public int GetID()
+        {
+            // Debug.Log("GetID: " + linkedAlteration.ID);
+            return linkedAlteration.ID;
+        }
     }
 }
-

@@ -6,22 +6,14 @@ namespace _project.Scripts.Player
 {
     public class PlayerProxy : HealthComponentProxy, IShootTarget
     {
-
         private void Start()
         {
-            if (healthComponent == null)
-            {
-                throw new NullReferenceException("HealthComponent is missing");
-            }
+            if (healthComponent == null) throw new NullReferenceException("HealthComponent is missing");
         }
 
         public Vector3 GetAimPosition()
         {
-            if (healthComponent == null)
-            {
-                throw new NullReferenceException("HealthComponent is missing");
-            }
-            return healthComponent.transform.position;
+            return healthComponent == null ? throw new NullReferenceException("HealthComponent is missing") : healthComponent.transform.position;
         }
     }
 }

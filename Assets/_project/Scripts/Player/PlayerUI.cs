@@ -1,21 +1,26 @@
+using _project.Scripts.Alterable;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PlayerUI : MonoBehaviour
+namespace _project.Scripts.Player
 {
-    [SerializeField] UIBuffs Buffs;
-
-    [SerializeField] public PlayerStatus player;
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class PlayerUI : MonoBehaviour
     {
-        if (player == null)
+        [FormerlySerializedAs("Buffs"),SerializeField] private UIBuffs _buffs;
+
+        [FormerlySerializedAs("player"),SerializeField] private PlayerStatus _player;
+
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        private void Start()
         {
-            Debug.LogWarning("Set player in PlayerUI");
-            return;
+            if (_player == null)
+            {
+                Debug.LogWarning("Set player in PlayerUI");
+                return;
+            }
+
+            if (_buffs) _buffs.Link(_player);
         }
-        if(Buffs)
-            Buffs.Link(player);
     }
 }

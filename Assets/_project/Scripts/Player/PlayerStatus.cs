@@ -1,55 +1,58 @@
-using _project.Scripts.Player;
-using System;
+using _project.Scripts.Alterable;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PlayerStatus : MonoBehaviour, I_Alterable
+namespace _project.Scripts.Player
 {
-    private Alterable _Alterables = new Alterable();
-    [SerializeField] int NumAlterationsMax = 10;
-
-    // DEBUG
-    [SerializeField] S_Alteration debugAlteration;
-    float clock = 0;
-    public float DebugTime = 2.0f;
-
-
-    // Update is called once per frame
-    void Update()
+    public class PlayerStatus : MonoBehaviour, IAlterable
     {
-        if(DebugTime > 0)
+        [FormerlySerializedAs("NumAlterationsMax"),SerializeField] private int _numAlterationsMax = 10;
+
+        // DEBUG
+        [FormerlySerializedAs("debugAlteration"),SerializeField] private Alteration _debugAlteration;
+        [FormerlySerializedAs("DebugTime")] public float debugTime = 2.0f;
+        private readonly Alterable.Alterable alterables = new();
+        private float clock;
+
+
+        // Update is called once per frame
+        private void Update()
         {
-            clock += Time.deltaTime;
-            if (clock >= 2.0f)
+            if (debugTime > 0)
             {
-                clock = 0;
-                DebugAlterations();
+                clock += Time.deltaTime;
+                if (clock >= 2.0f)
+                {
+                    clock = 0;
+                    DebugAlterations();
+                }
             }
         }
-    }
 
-    internal int GetFinalStat(int inStat, StatType type)
-    {
-        int finalStat = 0;
-        Debug.Log("Player " + type.ToString() + " calculating... ");
-        finalStat = (int)Mathf.Floor(_Alterables.GetFinalValue(inStat, type));
-        Debug.Log("Player " + type.ToString() + " was " + inStat + " now is " + finalStat + " after calculations");
-        return finalStat;
-    }
+        public void ReceiveAlteration(Alteration arg)
+        {
+            if (alterables.NumAlterations() >= _numAlterationsMax) return;
 
-    public Alterable getAlterables()
-    {
-        return _Alterables;
-    }
+            alterables.AddModifier(arg);
+        }
 
-    private void DebugAlterations()
-    {
-        ReceiveAlteration(debugAlteration);
-    }
+        internal int GetFinalStat(int inStat, StatType type)
+        {
+            int finalStat = 0;
+            Debug.Log("Player " + type + " calculating... ");
+            finalStat = (int)Mathf.Floor(alterables.GetFinalValue(inStat, type));
+            Debug.Log("Player " + type + " was " + inStat + " now is " + finalStat + " after calculations");
+            return finalStat;
+        }
 
-    public void ReceiveAlteration(S_Alteration arg)
-    {
-        if (_Alterables.NumAlterations() >= NumAlterationsMax)
-            return;
-        _Alterables.AddModifier(arg);
+        public Alterable.Alterable GetAlterables()
+        {
+            return alterables;
+        }
+
+        private void DebugAlterations()
+        {
+            ReceiveAlteration(_debugAlteration);
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace _project.Scripts.ExtensionClasses
     public static class DictionaryExtensions
     {
         /// <summary>
-        /// Returns the value in the dictionary, if no value present creates it with the <paramref name="addAction"/> provided
+        ///     Returns the value in the dictionary, if no value present creates it with the <paramref name="addAction" /> provided
         /// </summary>
         /// <param name="dictionary">The dictionary in which to perform the action</param>
         /// <param name="key">The key  of the dictionary</param>
@@ -24,7 +24,7 @@ namespace _project.Scripts.ExtensionClasses
         }
 
         /// <summary>
-        /// Returns the value in the dictionary, if no value present creates it with the <paramref name="defaultValue"/> provided
+        ///     Returns the value in the dictionary, if no value present creates it with the <paramref name="defaultValue" /> provided
         /// </summary>
         /// <param name="dictionary">The dictionary in which to perform the action</param>
         /// <param name="key">The key  of the dictionary</param>
