@@ -1,4 +1,4 @@
-using _project.Scripts.Alterable;
+using _project.Scripts.Alterables;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,9 +6,11 @@ namespace _project.Scripts.Player
 {
     public class PlayerUI : MonoBehaviour
     {
-        [FormerlySerializedAs("Buffs"),SerializeField] private UIBuffs _buffs;
+        [FormerlySerializedAs("Buffs"), SerializeField]
+        private UIBuffs _buffs;
 
-        [FormerlySerializedAs("player"),SerializeField] private PlayerStatus _player;
+        [FormerlySerializedAs("player"), SerializeField]
+        private PlayerStatus _player;
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created

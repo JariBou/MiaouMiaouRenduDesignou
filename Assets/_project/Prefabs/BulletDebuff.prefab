@@ -154,11 +154,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.SimpleBullet
   _rb: {fileID: 1824004431544435161}
-  _damageAmount: 1
+  _damageAmount: 10
   _bulletSpeed: 8
   _maxFlightTime: 15
-  InflictAlteration: 1
-  InflictedAlteration:
+  _inflictAlteration: 1
+  _inflictedAlteration:
     ID: 1
     type: 0
     statType: 1

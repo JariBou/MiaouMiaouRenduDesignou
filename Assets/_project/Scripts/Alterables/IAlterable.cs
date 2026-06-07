@@ -1,4 +1,4 @@
-namespace _project.Scripts.Alterable
+namespace _project.Scripts.Alterables
 {
     public interface IAlterable
     {

@@ -3,14 +3,15 @@ using _project.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _project.Scripts.Alterable
+namespace _project.Scripts.Alterables
 {
     public class UIBuffs : MonoBehaviour
     {
-        [FormerlySerializedAs("prefab"),SerializeField] private Buff _prefab;
-        private PlayerStatus player;
+        [FormerlySerializedAs("prefab"), SerializeField]
+        private Buff _prefab;
 
         private readonly List<Buff> children = new();
+        private PlayerStatus player;
 
         private void OnDisable()
         {
@@ -24,10 +25,10 @@ namespace _project.Scripts.Alterable
             if (playerStatus == null) return false;
 
             Debug.Log("Link valid");
-            this.player = playerStatus;
+            player = playerStatus;
 
-            this.player.GetAlterables().onAddAlteration += AddUIBuff;
-            this.player.GetAlterables().onRemoveAlteration += RemoveUIBuff;
+            player.GetAlterables().onAddAlteration += AddUIBuff;
+            player.GetAlterables().onRemoveAlteration += RemoveUIBuff;
 
             return true;
         }

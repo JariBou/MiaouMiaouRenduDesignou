@@ -2,7 +2,7 @@ using System;
 
 //[CreateAssetMenu(fileName = "Alteration", menuName = "ScriptableObjects/Alterable", order = 1)]
 
-namespace _project.Scripts.Alterable
+namespace _project.Scripts.Alterables
 {
     [Serializable]
     public struct Alteration : IEquatable<Alteration>
@@ -16,7 +16,8 @@ namespace _project.Scripts.Alterable
 
         public bool Equals(Alteration other)
         {
-            return ID == other.ID && type == other.type && statType == other.statType && amount.Equals(other.amount) && timer.Equals(other.timer) && name == other.name;
+            return ID == other.ID && type == other.type && statType == other.statType && amount.Equals(other.amount) && timer.Equals(other.timer) &&
+                   name == other.name;
         }
 
         public override bool Equals(object obj)

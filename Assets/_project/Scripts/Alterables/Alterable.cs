@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
-namespace _project.Scripts.Alterable
+namespace _project.Scripts.Alterables
 {
     [Serializable]
     public class Alterable
@@ -29,7 +29,6 @@ namespace _project.Scripts.Alterable
 
         public void AddModifier(Alteration inAlteration)
         {
-            //Alteration Copy = ScriptableObject.Instantiate(InAlteration);
             if (!IsValidAlteration(inAlteration))
             {
                 Debug.LogWarning("Invalid Alteration");

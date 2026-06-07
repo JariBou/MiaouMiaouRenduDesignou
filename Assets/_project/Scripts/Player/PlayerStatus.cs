@@ -1,4 +1,4 @@
-using _project.Scripts.Alterable;
+using _project.Scripts.Alterables;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,19 +6,26 @@ namespace _project.Scripts.Player
 {
     public class PlayerStatus : MonoBehaviour, IAlterable
     {
-        [FormerlySerializedAs("NumAlterationsMax"),SerializeField] private int _numAlterationsMax = 10;
+        [FormerlySerializedAs("NumAlterationsMax"), Header("Alterations"), SerializeField] 
+        private int _numAlterationsMax = 10;
 
         // DEBUG
-        [FormerlySerializedAs("debugAlteration"),SerializeField] private Alteration _debugAlteration;
-        [FormerlySerializedAs("DebugTime")] public float debugTime = 2.0f;
-        private readonly Alterable.Alterable alterables = new();
-        private float clock;
+        [FormerlySerializedAs("debugAlteration"), Header("Debug"), SerializeField] 
+        private Alteration _debugAlteration;
 
+        [FormerlySerializedAs("debugTime"), SerializeField]
+        private float _debugTime = 2.0f;
+
+        [FormerlySerializedAs("doRandomDebugValues"), SerializeField]
+        private bool _doRandomDebugValues;
+
+        private readonly Alterable alterables = new();
+        private float clock;
 
         // Update is called once per frame
         private void Update()
         {
-            if (debugTime > 0)
+            if (_debugTime > 0)
             {
                 clock += Time.deltaTime;
                 if (clock >= 2.0f)
@@ -31,6 +38,7 @@ namespace _project.Scripts.Player
 
         public void ReceiveAlteration(Alteration arg)
         {
+            if (_doRandomDebugValues) arg.amount = Random.Range(-5, 5);
             if (alterables.NumAlterations() >= _numAlterationsMax) return;
 
             alterables.AddModifier(arg);
@@ -45,7 +53,7 @@ namespace _project.Scripts.Player
             return finalStat;
         }
 
-        public Alterable.Alterable GetAlterables()
+        public Alterable GetAlterables()
         {
             return alterables;
         }

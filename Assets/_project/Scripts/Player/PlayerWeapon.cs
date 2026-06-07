@@ -1,4 +1,4 @@
-﻿using _project.Scripts.Alterable;
+﻿using _project.Scripts.Alterables;
 using _project.Scripts.Game.Interfaces;
 using UnityEngine;
 

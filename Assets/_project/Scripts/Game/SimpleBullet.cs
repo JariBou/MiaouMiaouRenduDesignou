@@ -1,6 +1,5 @@
-﻿using _project.Scripts.Alterable;
+﻿using _project.Scripts.Alterables;
 using _project.Scripts.Game.Interfaces;
-using _project.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,8 +15,11 @@ namespace _project.Scripts.Game
         [SerializeField, Tooltip("Deactivate bullet after s")]
         private float _maxFlightTime = 15;
 
-        [FormerlySerializedAs("InflictAlteration"),SerializeField] private bool _inflictAlteration;
-        [FormerlySerializedAs("InflictedAlteration"),SerializeField] private Alteration _inflictedAlteration;
+        [FormerlySerializedAs("InflictAlteration"), SerializeField]
+        private bool _inflictAlteration;
+
+        [FormerlySerializedAs("InflictedAlteration"), SerializeField]
+        private Alteration _inflictedAlteration;
 
         private float flightTime;
 
