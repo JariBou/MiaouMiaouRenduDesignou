@@ -147,6 +147,7 @@ namespace Pooling
                     i++;
                 } else
                 {
+                    Object.Destroy(objects[i]);
                     objects.RemoveAt(i);
                 }
             }
