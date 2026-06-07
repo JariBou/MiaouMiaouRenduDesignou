@@ -5,14 +5,23 @@ using UnityEngine.UI;
 
 public class Buff : MonoBehaviour
 {
-    [SerializeField] TMPro.TextMeshProUGUI textName;
+    [SerializeField] TMPro.TextMeshProUGUI textShown;
 
     S_Alteration linkedAlteration;
 
     internal void LinkedAlteration(S_Alteration arg0)
     {
         linkedAlteration = arg0;
-        textName.text = arg0.statType.ToString() + " : " + arg0.amount;
+        string middle = " ";
+        Color color = Color.red;
+
+        if (arg0.amount > 0)
+        {
+            middle = " +";
+            color = Color.green;
+        }
+        textShown.color = color;
+        textShown.text = arg0.statType.ToString() + middle + arg0.amount;
     }
 
     public int GetID()

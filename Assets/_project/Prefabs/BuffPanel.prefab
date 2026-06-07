@@ -90,8 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3683798429afde440977df01ac80f7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Buff
-  textName: {fileID: 9168300862965627530}
-  image: {fileID: 6969902173530249443}
+  textShown: {fileID: 9168300862965627530}
 --- !u!1 &2193635987125849917
 GameObject:
   m_ObjectHideFlags: 0

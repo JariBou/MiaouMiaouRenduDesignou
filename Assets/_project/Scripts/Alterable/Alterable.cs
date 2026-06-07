@@ -27,7 +27,6 @@ public class Alterable
     }
     public void AddModifier(S_Alteration InAlteration)
     {
-        //Alteration Copy = ScriptableObject.Instantiate(InAlteration);
         if (!IsValidAlteration(InAlteration))
         {
             Debug.LogWarning("Invalid Alteration");

@@ -30144,7 +30144,8 @@ MonoBehaviour:
     amount: 1
     timer: -1
     name: Crit
-  DebugTime: 10
+  DebugTime: 2
+  doRandomDebugValues: 1
 --- !u!1001 &316894929158137843
 PrefabInstance:
   m_ObjectHideFlags: 0
