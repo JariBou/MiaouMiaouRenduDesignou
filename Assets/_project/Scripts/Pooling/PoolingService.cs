@@ -15,9 +15,10 @@ namespace _project.Scripts.Pooling
         {
             foreach (PoolDefinition entry in _poolEntries)
             {
-                Pool requestPool = RequestPool(entry.PoolName, entry.Prefab, entry.DefaultSize);
-                requestPool.ScheduleCleanEverySeconds(5, 2);
-                requestPool.PoolCleaned += (pool, b) => Debug.Log($"Pool Cleaned with: {b}");
+                RequestPool(entry.PoolName, entry.Prefab, entry.DefaultSize);
+                // Pool requestPool = RequestPool(entry.PoolName, entry.Prefab, entry.DefaultSize);
+                // requestPool.ScheduleCleanEverySeconds(1, 2);
+                // requestPool.PoolCleaned += (pool, b) => Debug.Log($"Pool Cleaned with: {b}");
             }
         }
 
