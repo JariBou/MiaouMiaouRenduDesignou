@@ -5,32 +5,57 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 [Serializable]
 public class Alterable 
 {
     List<Alteration> Alterations;
     CancellationTokenSource Source;
+
+    public UnityAction<Alteration> OnAddAlteration,OnRemoveAlteration;
+    int counter = 1;
+
     public void SetUpNewSource()
     {
         Source = new CancellationTokenSource();
     }
-
+    public int NumAlterations()
+    {
+        return Alterations.Count;
+    }
     public void AddModifier(Alteration InAlteration)
     {
+        if (!IsValidAlteration(InAlteration))
+        {
+            Debug.LogWarning("Invalid Alteration");
+            return;
+        }
+        counter += 1;
+        InAlteration.ID = counter;
         if(Alterations.Exists(alteration => alteration.ID == InAlteration.ID))
         {
             Debug.Log("Modifier with id " + InAlteration.ID + " already exists");
             return;
         }
+        Debug.Log("Adding alteration: " + InAlteration);
         Alterations.Add(InAlteration);
         if(InAlteration.timer > 0)
         {
+            Debug.Log("With timer of: " + InAlteration.timer);
             if (Source ==  null || Source.IsCancellationRequested)
                 SetUpNewSource();
             CancellationToken cancellationToken = Source.Token;
             _ = ModifierTimerAsync(InAlteration, cancellationToken);
         }
+        OnAddAlteration?.Invoke(InAlteration);
+    }
+
+    private bool IsValidAlteration(Alteration inAlteration)
+    {
+        if(inAlteration.ID < 0) return false;
+        return true;
     }
 
     async Awaitable ModifierTimerAsync(Alteration alteration, CancellationToken inToken)
@@ -53,25 +78,28 @@ public class Alterable
     public void RemoveModifier(Alteration InAlteration)
     {
         Alterations.Remove(InAlteration);
+        OnRemoveAlteration?.Invoke(InAlteration);
     }
 
-    public void RemoveLastXModifier()
+    public void RemoveLastModifier()
     {
+        OnRemoveAlteration?.Invoke(Alterations.Last());
         Alterations.Remove(Alterations.Last());
     }
 
     public void RemoveRandomModifier()
     {
         int i = UnityEngine.Random.Range(0, Alterations.Count);
+        OnRemoveAlteration?.Invoke(Alterations[i]);
         Alterations.RemoveAt(i);
     }
 
 
-    public float GetFinalValue(float inValue)
+    public float GetFinalValue(float inValue, StatType type)
     {
-        foreach (var item in Alterations)
+        foreach (var item in Alterations.Where(n => n.statType == type))
         {
-            switch (item.Type)
+            switch (item.type)
             {
                 case AlterationType.Addition:
                     inValue = AdditionAlteration(inValue, item.amount);
@@ -89,25 +117,25 @@ public class Alterable
 
     private float AdditionAlteration(float inValue, float amount)
     {
+        Debug.Log("Addition: " + inValue + " + " + amount + " = " + inValue + amount);
         return inValue + amount;
     }
 
     private float MultiplicationAlteration(float inValue, float amount)
     {
+        Debug.Log("Multiplication: " + inValue + " * " + amount + " = " + inValue + amount);
         return inValue * amount;
     }
 }
-
-public struct Alteration
-{
-    public float ID;
-    public AlterationType Type;
-    public float amount;
-    public float timer;
-}
-
 public enum AlterationType
 {
     Addition,
     Multiplication,
+}
+
+public enum StatType
+{
+    HP,
+    Attack,
+    Def,
 }
