@@ -17,6 +17,10 @@ namespace _project.Scripts.Player
 
         public Vector3 GetAimPosition()
         {
+            if (healthComponent == null)
+            {
+                throw new NullReferenceException("HealthComponent is missing");
+            }
             return healthComponent.transform.position;
         }
     }

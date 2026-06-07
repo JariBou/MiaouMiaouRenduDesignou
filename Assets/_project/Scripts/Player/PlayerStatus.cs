@@ -1,7 +1,8 @@
+using _project.Scripts.Player;
 using System;
 using UnityEngine;
 
-public class PlayerStatus : MonoBehaviour
+public class PlayerStatus : MonoBehaviour, I_Alterable
 {
     private Alterable _Alterables = new Alterable();
     [SerializeField] int NumAlterationsMax = 10;
@@ -35,13 +36,6 @@ public class PlayerStatus : MonoBehaviour
         return finalStat;
     }
 
-    public void AddAlteration(S_Alteration arg)
-    {
-        if (_Alterables.NumAlterations() >= NumAlterationsMax)
-            return;
-        _Alterables.AddModifier(arg);
-    }
-
     public Alterable getAlterables()
     {
         return _Alterables;
@@ -49,6 +43,13 @@ public class PlayerStatus : MonoBehaviour
 
     private void DebugAlterations()
     {
-        AddAlteration(debugAlteration);
+        ReceiveAlteration(debugAlteration);
+    }
+
+    public void ReceiveAlteration(S_Alteration arg)
+    {
+        if (_Alterables.NumAlterations() >= NumAlterationsMax)
+            return;
+        _Alterables.AddModifier(arg);
     }
 }

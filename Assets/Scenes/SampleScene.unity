@@ -7142,6 +7142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Pooling.PoolingService
   _poolEntries:
   - {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329, type: 2}
+  - {fileID: 11400000, guid: 38ab4e261e75ece40979625bbfe1da19, type: 2}
 --- !u!4 &502148776
 Transform:
   m_ObjectHideFlags: 0
@@ -21936,9 +21937,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
+      propertyPath: _shootCooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
+        type: 3}
       propertyPath: _poolDefinitionToUse
       value: 
-      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+      objectReference: {fileID: 11400000, guid: 38ab4e261e75ece40979625bbfe1da19,
         type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
@@ -30116,6 +30122,8 @@ MonoBehaviour:
   _animator: {fileID: 854371853}
   _baseMaxHealth: 50
   _invincibilityTime: 1
+  _ownerStats: {fileID: 164211095928399054}
+  BaseDef: 2
 --- !u!114 &164211095928399054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30133,10 +30141,10 @@ MonoBehaviour:
     ID: 1
     type: 0
     statType: 0
-    amount: -1
+    amount: 1
     timer: -1
-    name: Test
-  DebugTime: 5
+    name: Crit
+  DebugTime: 10
 --- !u!1001 &316894929158137843
 PrefabInstance:
   m_ObjectHideFlags: 0

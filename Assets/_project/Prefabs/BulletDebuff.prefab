@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1824004431544435161}
   - component: {fileID: 7097331033977650940}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: BulletDebuff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,11 +157,11 @@ MonoBehaviour:
   _damageAmount: 1
   _bulletSpeed: 8
   _maxFlightTime: 15
-  InflictAlteration: 0
+  InflictAlteration: 1
   InflictedAlteration:
     ID: 1
     type: 0
-    statType: 0
-    amount: 0
-    timer: 0
-    name: Null
+    statType: 1
+    amount: -2
+    timer: 3
+    name: DebuffAttack

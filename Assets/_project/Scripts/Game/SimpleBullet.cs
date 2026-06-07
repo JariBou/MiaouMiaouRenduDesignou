@@ -11,7 +11,9 @@ namespace _project.Scripts.Game
         [SerializeField] private int _damageAmount = 1;
         [SerializeField] private float _bulletSpeed = 1;
         [SerializeField, Tooltip("Deactivate bullet after s")] private float _maxFlightTime = 15;
-        
+        [SerializeField] bool InflictAlteration = false;
+        [SerializeField] S_Alteration InflictedAlteration;
+
         private float flightTime;
 
         public void Setup(Vector3 position, Vector3 direction)
@@ -49,6 +51,10 @@ namespace _project.Scripts.Game
             if (other.gameObject.GetComponent<IDamageable>() is { } damageable)
             {
                 damageable.TakeDamage(_damageAmount);
+            }
+            if (InflictAlteration == true && other.gameObject.GetComponent<I_Alterable>() is { } alterable)
+            {
+                alterable.ReceiveAlteration(InflictedAlteration);
             }
             gameObject.SetActive(false);
         }
