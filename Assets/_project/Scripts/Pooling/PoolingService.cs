@@ -8,12 +8,12 @@ namespace _project.Scripts.Pooling
 {
     public class PoolingService : MonoBehaviour
     {
-        [SerializeField] private List<PoolEnty> _poolEntries;
-        private Dictionary<string, Pool> _pools = new();
+        [SerializeField] private List<PoolDefinition> _poolEntries;
+        private readonly Dictionary<string, Pool> _pools = new();
 
         private void Start()
         {
-            foreach (PoolEnty entry in _poolEntries)
+            foreach (PoolDefinition entry in _poolEntries)
             {
                 Pool requestPool = RequestPool(entry.PoolName, entry.Prefab, entry.DefaultSize);
                 requestPool.ScheduleCleanEverySeconds(5, 2);
@@ -27,7 +27,7 @@ namespace _project.Scripts.Pooling
         }
 
         /// <summary>
-        ///     Requests a pool and creates it if it doesn't already exist, useful when the order of creation is not guaranteed.
+        /// Requests a pool and creates it if it doesn't already exist, useful when the order of creation is not guaranteed.
         /// </summary>
         /// <param name="id">The id of the pool</param>
         /// <param name="prefab">the prefab to use in the pool</param>
@@ -36,6 +36,29 @@ namespace _project.Scripts.Pooling
         public Pool RequestPool(string id, GameObject prefab, int poolSize = -1)
         {
             return _pools.TryAddAndGet(id, () => new Pool(prefab, poolSize != -1 ? poolSize : Pool.DefaultPoolSize));
+        }
+
+        /// <summary>
+        /// Requests a pool and creates it if it doesn't already exist
+        /// </summary>
+        /// <param name="poolDefinition">The pool definition to use</param>
+        /// <returns>The Pool</returns>
+        public Pool RequestPool(PoolDefinition poolDefinition)
+        {
+            return RequestPool(poolDefinition.PoolName, poolDefinition.Prefab, poolDefinition.DefaultSize);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="RequestPool(PoolDefinition)"/>
+        /// </summary>
+        /// <param name="poolDefinition"><inheritdoc cref="RequestPool(PoolDefinition)"/></param>
+        /// <param name="poolSize">The pool size override for pool creation if needed</param>
+        /// <returns>
+        /// <inheritdoc cref="RequestPool(PoolDefinition)"/>
+        /// </returns>
+        public Pool RequestPool(PoolDefinition poolDefinition, int poolSize)
+        {
+            return RequestPool(poolDefinition.PoolName, poolDefinition.Prefab, poolSize);
         }
 
         [Serializable]

@@ -10,18 +10,20 @@ namespace _project.Scripts.Game
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private int _damageAmount = 1;
         [SerializeField] private float _bulletSpeed = 1;
+        
+        private float flightTime;
 
         public void Setup(Vector3 position, Vector3 direction)
         {
             transform.position = position;
             _rb.linearVelocity = direction * _bulletSpeed;
+            flightTime = 0;
         }
         
         public void Setup(Vector3 position, Vector3 direction, int damageAmount)
         {
-            transform.position = position;
-            _rb.linearVelocity = direction * _bulletSpeed;
             _damageAmount = damageAmount;
+            Setup(position, direction);
         }
         
         public void Setup(Vector3 position, Vector3 direction, int damageAmount, float bulletSpeed)
@@ -29,7 +31,17 @@ namespace _project.Scripts.Game
             _bulletSpeed = bulletSpeed;
             Setup(position, direction, damageAmount);
         }
-        
+
+        private void FixedUpdate()
+        {
+            if (!gameObject.activeSelf) return; // Justin Case
+            
+            flightTime += Time.fixedDeltaTime;
+            if (flightTime > 15)
+            {
+                gameObject.SetActive(false);
+            }
+        }
 
         private void OnCollisionEnter(Collision other)
         {

@@ -10,7 +10,7 @@ namespace _project.Scripts.Game
     [RequireComponent(typeof(SphereCollider))]
     public class ShootOnRange : MonoBehaviour<PoolingService>
     {
-        [SerializeField] private string _bulletPoolToUseName = "bullet_pool"; 
+        [SerializeField] private PoolDefinition _poolDefinitionToUse; 
         
         [SerializeField] private float _shootCooldown;
         [SerializeField] private float _shootDirOffsetAmount = 0.5f;
@@ -48,7 +48,7 @@ namespace _project.Scripts.Game
                 return;
             }
 
-            SimpleBullet simpleBullet = poolingService.RequestPool(_bulletPoolToUseName).Get<SimpleBullet>();
+            SimpleBullet simpleBullet = poolingService.RequestPool(_poolDefinitionToUse).Get<SimpleBullet>();
             Vector3 transformPosition = transform.position;
             Vector3 dir = (currTarget.GetAimPosition() - transformPosition).normalized;
             simpleBullet.Setup(transformPosition + dir*_shootDirOffsetAmount + _shootOffset, dir);

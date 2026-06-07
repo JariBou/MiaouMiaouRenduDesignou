@@ -2384,49 +2384,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 127046064}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &127193501 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1531933441}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &127193505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127193501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ca8771f7054864698654d8fc141838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.ShootOnRange
-  _bulletPoolToUseName: bullet_pool
-  _shootCooldown: 2.5
-  _shootDirOffsetAmount: 0.5
-  _shootOffset: {x: 0, y: 0, z: 0}
---- !u!135 &127193506
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127193501}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 7.5
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &127303744 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5d68d1e38da0311479c8004fc150be37,
@@ -3217,49 +3174,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d68d1e38da0311479c8004fc150be37, type: 3}
---- !u!1 &203508511 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1036126127}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &203508515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203508511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ca8771f7054864698654d8fc141838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.ShootOnRange
-  _bulletPoolToUseName: bullet_pool
-  _shootCooldown: 2.5
-  _shootDirOffsetAmount: 0.5
-  _shootOffset: {x: 0, y: 0, z: 0}
---- !u!135 &203508516
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203508511}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 7.5
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &204103616
 GameObject:
   m_ObjectHideFlags: 0
@@ -7184,10 +7098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Pooling.PoolingService
   _poolEntries:
-  - _poolName: bullet_pool
-    _prefab: {fileID: 1570420173630151847, guid: 6d18df14175f74a4a8e2c36503d7c009,
-      type: 3}
-    _defaultSize: 3
+  - {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329, type: 2}
 --- !u!4 &502148776
 Transform:
   m_ObjectHideFlags: 0
@@ -15131,6 +15042,12 @@ PrefabInstance:
       propertyPath: _drawDebugGizmo
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
+        type: 3}
+      propertyPath: _poolDefinitionToUse
+      value: 
+      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+        type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15849,6 +15766,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.70710677
       objectReference: {fileID: 0}
+    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
+        type: 3}
+      propertyPath: _poolDefinitionToUse
+      value: 
+      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+        type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15942,15 +15865,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 203508516}
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 203508515}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8e63e1fcdad9425f9577e9775d324fc, type: 3}
 --- !u!1001 &1036709555
 PrefabInstance:
@@ -20588,49 +20503,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 643152217}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1367652346 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1420233338}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1367652350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367652346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ca8771f7054864698654d8fc141838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.ShootOnRange
-  _bulletPoolToUseName: bullet_pool
-  _shootCooldown: 2.5
-  _shootDirOffsetAmount: 0.5
-  _shootOffset: {x: 0, y: 0, z: 0}
---- !u!135 &1367652351
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367652346}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 7.5
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &1373691074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21407,6 +21279,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.70710677
       objectReference: {fileID: 0}
+    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
+        type: 3}
+      propertyPath: _poolDefinitionToUse
+      value: 
+      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+        type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21500,15 +21378,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1367652351}
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1367652350}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8e63e1fcdad9425f9577e9775d324fc, type: 3}
 --- !u!1001 &1422861629
 PrefabInstance:
@@ -22145,6 +22015,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.70710677
       objectReference: {fileID: 0}
+    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
+        type: 3}
+      propertyPath: _poolDefinitionToUse
+      value: 
+      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+        type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22238,15 +22114,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2069538844}
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2069538843}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8e63e1fcdad9425f9577e9775d324fc, type: 3}
 --- !u!1001 &1498527590
 PrefabInstance:
@@ -22767,6 +22635,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.70710677
       objectReference: {fileID: 0}
+    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
+        type: 3}
+      propertyPath: _poolDefinitionToUse
+      value: 
+      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+        type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22860,15 +22734,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 127193506}
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 127193505}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8e63e1fcdad9425f9577e9775d324fc, type: 3}
 --- !u!4 &1535901648 stripped
 Transform:
@@ -24336,49 +24202,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d68d1e38da0311479c8004fc150be37, type: 3}
---- !u!1 &1670972402 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2066530861}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1670972406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670972402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ca8771f7054864698654d8fc141838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.ShootOnRange
-  _bulletPoolToUseName: bullet_pool
-  _shootCooldown: 2.5
-  _shootDirOffsetAmount: 0.5
-  _shootOffset: {x: 0, y: 0, z: 0}
---- !u!135 &1670972407
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670972402}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 7.5
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &1680791135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29300,6 +29123,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.70710677
       objectReference: {fileID: 0}
+    - target: {fileID: 937849771434018343, guid: b8e63e1fcdad9425f9577e9775d324fc,
+        type: 3}
+      propertyPath: _poolDefinitionToUse
+      value: 
+      objectReference: {fileID: 11400000, guid: 17cbe5c6d54302e408eaae6833fff329,
+        type: 2}
     - target: {fileID: 1292920034940113651, guid: b8e63e1fcdad9425f9577e9775d324fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29393,59 +29222,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1670972407}
-    - targetCorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1670972406}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8e63e1fcdad9425f9577e9775d324fc, type: 3}
---- !u!1 &2069538839 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1979136645898436435, guid: b8e63e1fcdad9425f9577e9775d324fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1493436726}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2069538843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069538839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ca8771f7054864698654d8fc141838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_project.Scripts.Game.ShootOnRange
-  _bulletPoolToUseName: bullet_pool
-  _shootCooldown: 2.5
-  _shootDirOffsetAmount: 0.5
-  _shootOffset: {x: 0, y: 0, z: 0}
---- !u!135 &2069538844
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069538839}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 7.5
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &2076701689
 PrefabInstance:
   m_ObjectHideFlags: 0
