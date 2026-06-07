@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _project.Scripts.Player
 {
@@ -12,17 +11,16 @@ namespace _project.Scripts.Player
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject == _ownerHitbox) return;
+
             if (other.gameObject.GetComponent<IDamageable>() is { } damageable)
             {
                 if (!_ownerStats)
                 {
                     Debug.Log("No playerStats attached to weapon, default attack value used instead");
                     damageable.TakeDamage(_damageAmount);
-                } else
-                {
-                    damageable.TakeDamage(_ownerStats.GetFinalStat(_damageAmount, StatType.Attack));
                 }
-
+                else
+                    damageable.TakeDamage(_ownerStats.GetFinalStat(_damageAmount, StatType.Attack));
             }
         }
     }
