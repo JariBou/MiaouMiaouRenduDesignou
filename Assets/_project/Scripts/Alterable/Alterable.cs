@@ -11,10 +11,10 @@ using UnityEngine.UI;
 [Serializable]
 public class Alterable 
 {
-    List<Alteration> Alterations;
+    List<S_Alteration> Alterations = new List<S_Alteration>();
     CancellationTokenSource Source;
 
-    public UnityAction<Alteration> OnAddAlteration,OnRemoveAlteration;
+    public UnityAction<S_Alteration> OnAddAlteration,OnRemoveAlteration;
     int counter = 1;
 
     public void SetUpNewSource()
@@ -25,8 +25,9 @@ public class Alterable
     {
         return Alterations.Count;
     }
-    public void AddModifier(Alteration InAlteration)
+    public void AddModifier(S_Alteration InAlteration)
     {
+        //Alteration Copy = ScriptableObject.Instantiate(InAlteration);
         if (!IsValidAlteration(InAlteration))
         {
             Debug.LogWarning("Invalid Alteration");
@@ -52,13 +53,13 @@ public class Alterable
         OnAddAlteration?.Invoke(InAlteration);
     }
 
-    private bool IsValidAlteration(Alteration inAlteration)
+    private bool IsValidAlteration(S_Alteration inAlteration)
     {
         if(inAlteration.ID < 0) return false;
         return true;
     }
 
-    async Awaitable ModifierTimerAsync(Alteration alteration, CancellationToken inToken)
+    async Awaitable ModifierTimerAsync(S_Alteration alteration, CancellationToken inToken)
     {
         await Awaitable.WaitForSecondsAsync(alteration.timer, inToken);
         Debug.Log("Timer done");
@@ -75,7 +76,7 @@ public class Alterable
         Source.Dispose();
     }
 
-    public void RemoveModifier(Alteration InAlteration)
+    public void RemoveModifier(S_Alteration InAlteration)
     {
         Alterations.Remove(InAlteration);
         OnRemoveAlteration?.Invoke(InAlteration);
@@ -117,14 +118,16 @@ public class Alterable
 
     private float AdditionAlteration(float inValue, float amount)
     {
-        Debug.Log("Addition: " + inValue + " + " + amount + " = " + inValue + amount);
-        return inValue + amount;
+        float result = inValue + amount;
+        Debug.Log("Addition: " + inValue + " + " + amount + " = " + result);
+        return result;
     }
 
     private float MultiplicationAlteration(float inValue, float amount)
     {
-        Debug.Log("Multiplication: " + inValue + " * " + amount + " = " + inValue + amount);
-        return inValue * amount;
+        float result = inValue * amount;
+        Debug.Log("Multiplication: " + inValue + " * " + amount + " = " + result);
+        return result;
     }
 }
 public enum AlterationType
@@ -135,7 +138,6 @@ public enum AlterationType
 
 public enum StatType
 {
-    HP,
     Attack,
     Def,
 }

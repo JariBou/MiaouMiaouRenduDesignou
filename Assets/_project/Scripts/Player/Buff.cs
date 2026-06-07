@@ -6,20 +6,18 @@ using UnityEngine.UI;
 public class Buff : MonoBehaviour
 {
     [SerializeField] TMPro.TextMeshProUGUI textName;
-    [SerializeField] Image image;
 
-    Alteration linkedAlteration;
+    S_Alteration linkedAlteration;
 
-    internal void LinkedAlteration(Alteration arg0)
+    internal void LinkedAlteration(S_Alteration arg0)
     {
         linkedAlteration = arg0;
-        image.sprite = arg0.icon;
-        textName.text = arg0.name;
+        textName.text = arg0.statType.ToString() + " : " + arg0.amount;
     }
 
     public int GetID()
     {
-        Debug.Log("GetID: " + linkedAlteration.ID);
+       // Debug.Log("GetID: " + linkedAlteration.ID);
         return linkedAlteration.ID;
     }
 }

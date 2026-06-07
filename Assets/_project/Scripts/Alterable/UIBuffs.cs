@@ -7,16 +7,19 @@ public class UIBuffs : MonoBehaviour
 {
     [SerializeField] Buff prefab;
 
-    List<Buff> children;
+    List<Buff> children = new List<Buff>();
+    private PlayerStatus _player;
+
     public bool Link(PlayerStatus player)
     {
         Debug.Log("Linking UI with player");
         if(player == null) 
             return false;
         Debug.Log("Link valid");
+        _player = player;
 
-        player.getAlterables().OnAddAlteration += AddUIBuff;
-        player.getAlterables().OnRemoveAlteration += RemoveUIBuff;
+        _player.getAlterables().OnAddAlteration += AddUIBuff;
+        _player.getAlterables().OnRemoveAlteration += RemoveUIBuff;
 
         return true;
 
@@ -24,9 +27,10 @@ public class UIBuffs : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        _player.getAlterables().OnAddAlteration -= AddUIBuff;
+        _player.getAlterables().OnRemoveAlteration -= RemoveUIBuff;
     }
-    private void AddUIBuff(Alteration arg0)
+    private void AddUIBuff(S_Alteration arg0)
     {
         Debug.Log("Add buff to UI");
         var tmp = Instantiate(prefab, transform);
@@ -35,12 +39,13 @@ public class UIBuffs : MonoBehaviour
 
     }
 
-    private void RemoveUIBuff(Alteration arg0)
+    private void RemoveUIBuff(S_Alteration arg0)
     {
         Debug.Log("Remove buff to UI");
         var child = children.Find(n => n.GetID() == arg0.ID);
         if (child == null)
             return;
         children.Remove(child);
+        Destroy(child.gameObject);
     }
 }

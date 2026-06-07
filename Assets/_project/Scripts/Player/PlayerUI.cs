@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField] UIBuffs Buffs;
+
     [SerializeField] public PlayerStatus player;
 
 
@@ -14,6 +15,7 @@ public class PlayerUI : MonoBehaviour
             Debug.LogWarning("Set player in PlayerUI");
             return;
         }
-        Buffs.Link(player);
+        if(Buffs)
+            Buffs.Link(player);
     }
 }

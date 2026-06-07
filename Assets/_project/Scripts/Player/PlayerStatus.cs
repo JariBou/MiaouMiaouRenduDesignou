@@ -3,17 +3,11 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    private Alterable _Alterables;
-    public float BaseAttack = 1f;
-    public float BaseDefense = 10;
+    private Alterable _Alterables = new Alterable();
     [SerializeField] int NumAlterationsMax = 10;
 
-    private float AlteredAttack = 0.0f;
-    private float AlteredDefense = 0;
-
-
     // DEBUG
-    [SerializeField] Alteration debugAlteration;
+    [SerializeField] S_Alteration debugAlteration;
     float clock = 0;
     public float DebugTime = 2.0f;
 
@@ -21,32 +15,27 @@ public class PlayerStatus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        clock += Time.deltaTime;
-        if (clock >= 2.0f)
+        if(DebugTime > 0)
         {
-            clock = 0;
-            DebugAlterations();
+            clock += Time.deltaTime;
+            if (clock >= 2.0f)
+            {
+                clock = 0;
+                DebugAlterations();
+            }
         }
     }
 
-    private float GetFinalAttack(StatType type)
+    internal int GetFinalStat(int inStat, StatType type)
     {
-        Debug.Log("Player attack calculating... ");
-        AlteredAttack = _Alterables.GetFinalValue(BaseAttack, type);
-        Debug.Log("Player attack was " + BaseAttack + " now is " + AlteredAttack + " after calculations");
-        return AlteredAttack;
+        int finalStat = 0;
+        Debug.Log("Player " + type.ToString() + " calculating... ");
+        finalStat = (int)Mathf.Floor(_Alterables.GetFinalValue(inStat, type));
+        Debug.Log("Player " + type.ToString() + " was " + inStat + " now is " + finalStat + " after calculations");
+        return finalStat;
     }
 
-    private float GetFinalDefense(StatType type)
-    {
-        Debug.Log("Player defense calculating... ");
-        AlteredDefense = _Alterables.GetFinalValue(BaseDefense, type);
-        Debug.Log("Player defense was " + BaseDefense + " now is " + Mathf.Floor(AlteredDefense) + " after calculations");
-        return Mathf.Floor(AlteredDefense);
-    }
-
-
-    public void AddAlteration(Alteration arg)
+    public void AddAlteration(S_Alteration arg)
     {
         if (_Alterables.NumAlterations() >= NumAlterationsMax)
             return;
@@ -60,9 +49,6 @@ public class PlayerStatus : MonoBehaviour
 
     private void DebugAlterations()
     {
-        if(debugAlteration != null)
-        {
-            AddAlteration(debugAlteration);
-        }
+        AddAlteration(debugAlteration);
     }
 }
