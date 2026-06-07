@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Modules.Pooling.Runtime
+namespace Pooling
 {
     public class Pool
     {
         public const int DefaultPoolSize = 10;
-        public event Action<Pool> PoolCleaned;
+        /// <summary>
+        /// Invoked whenever <see cref="CleanToPreferredSize"/> is called.
+        /// The bool argument is true when called via a scheduled Cleaning and false when called via user
+        /// </summary>
+        public event Action<Pool, bool /*wasScheduled*/> PoolCleaned;
         
         private readonly GameObject prefab;
         
@@ -21,9 +24,13 @@ namespace Modules.Pooling.Runtime
         public Pool(GameObject prefab, int size)
         {
             this.prefab = prefab;
-            InitialisePool(size);
+            InitializePool(size);
         }
 
+        /// <summary>
+        /// Destroys avery object in the pool and reinitializes the pool with a size of <paramref name="size"/>
+        /// </summary>
+        /// <param name="size">The size of the pool to initialize</param>
         public void ResetPool(int size)
         {
             // Since destruction is scheduled it is safe  to iterate via foreach
@@ -31,10 +38,10 @@ namespace Modules.Pooling.Runtime
             {
                 Object.Destroy(go);
             }
-            InitialisePool(size);    
+            InitializePool(size);    
         }
         
-        private void InitialisePool(int size)
+        private void InitializePool(int size)
         {
             objects = new List<GameObject>(size);
             for (int i = 0; i < size; i++)
@@ -46,10 +53,12 @@ namespace Modules.Pooling.Runtime
         }
         
         /// <summary>
+        /// Returns the first inactive GameObject in the pool, or creates a new one from prefab if needed
         /// </summary>
         /// <remarks>
         /// You shouldn't keep a permanent reference to this object as it may be destroyed on reset
         /// </remarks>
+        /// <param name="autoActivate">Whether to automatically set active the gameobject</param>
         /// <returns>The first inactive GameObject in the pool, or a new one if needed</returns>
         public GameObject Get(bool autoActivate = true)
         {
@@ -69,9 +78,13 @@ namespace Modules.Pooling.Runtime
             return gameObject;
         }
         
+        /// <inheritdoc cref="Get"/>
+        /// <summary>
+        /// Returns the first inactive GameObject's component of type <typeparamref name="TObject"/> in the pool. If no inactive gameobject, creates a new one from prefab.
+        /// </summary>
         public TObject Get<TObject>(bool autoActivate = true) where TObject : Object
         {
-            return Get(autoActivate).GetComponent<TObject>();
+            return Get(autoActivate: autoActivate).GetComponent<TObject>();
         }
 
         public void DeactivateAll()
@@ -97,7 +110,33 @@ namespace Modules.Pooling.Runtime
             return objects;
         }
 
-        public void CleanToPreferredSize(int preferredSize = 0)
+        // /// <summary>
+        // /// Tries to trim the list to a size of <paramref name="preferredSize"/>
+        // /// </summary>
+        // /// <param name="preferredSize">Size min of the list</param>
+        // public void CleanToPreferredSize(int preferredSize = 0)
+        // {
+        //     int i = 0;
+        //     while (i < objects.Count && objects.Count > preferredSize)
+        //     {
+        //         GameObject gameObject = objects[i];
+        //         if (gameObject.activeSelf)
+        //         {
+        //             i++;
+        //         } else
+        //         {
+        //             objects.RemoveAt(i);
+        //         }
+        //     }
+        //     PoolCleaned?.Invoke(this, false);
+        // }
+
+        /// <summary>
+        /// Tries to trim the list to a size of <paramref name="preferredSize"/>
+        /// </summary>
+        /// <param name="preferredSize">Size min of the list</param>
+        /// <param name="callerMemberName">The method that called this method, used internally to know if it was called via schedule</param>
+        public void CleanToPreferredSize(int preferredSize = 0, [CallerMemberName] string callerMemberName = "") // tbh could have gone with some internal shenanigans but I do love me some [CallerMemberName] sorry ^^ 
         {
             int i = 0;
             while (i < objects.Count && objects.Count > preferredSize)
@@ -111,26 +150,34 @@ namespace Modules.Pooling.Runtime
                     objects.RemoveAt(i);
                 }
             }
-            PoolCleaned?.Invoke(this);
+            PoolCleaned?.Invoke(this, callerMemberName == nameof(Pooling_CleanTask));
         }
 
+        /// <summary>
+        /// Stops any <see cref="CleanToPreferredSize"/> schedulled via <see cref="ScheduleCleanEverySeconds"/> if any
+        /// </summary>
         public void StopCleanEverySeconds()
         {
-            cleanTaskCancellationTokenSource.Cancel();
-            cleanTaskCancellationTokenSource.Dispose();
+            cleanTaskCancellationTokenSource?.Cancel();
+            cleanTaskCancellationTokenSource?.Dispose();
             cleanTaskCancellationTokenSource = null;
         }
         
-        public void ScheduleCleanEverySeconds(int preferredSize, int seconds)
+        /// <summary>
+        /// Calls <see cref="CleanToPreferredSize"/> every <paramref name="delay"/> seconds
+        /// </summary>
+        /// <param name="preferredSize">Size min of the list</param>
+        /// <param name="delay">The delay between each call</param>
+        public void ScheduleCleanEverySeconds(int preferredSize, int delay)
         {
             cleanTaskCancellationTokenSource?.Cancel();
             cleanTaskCancellationTokenSource?.Dispose();
             cleanTaskCancellationTokenSource = new CancellationTokenSource();
             
-            _ = CleanTask(preferredSize, seconds, cleanTaskCancellationTokenSource.Token);
+            _ = Pooling_CleanTask(preferredSize, delay, cleanTaskCancellationTokenSource.Token);
         }
 
-        private async Awaitable CleanTask(int preferredSize, int seconds, CancellationToken cancellationToken)
+        private async Awaitable Pooling_CleanTask(int preferredSize, int seconds, CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {

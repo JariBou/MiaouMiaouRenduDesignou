@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _project.Scripts.ExtensionClasses;
-using Modules.Pooling.Runtime;
+using Pooling;
 using UnityEngine;
 
 namespace _project.Scripts.Pooling
@@ -15,7 +15,9 @@ namespace _project.Scripts.Pooling
         {
             foreach (PoolEnty entry in _poolEntries)
             {
-                RequestPool(entry.PoolName, entry.Prefab, entry.DefaultSize);
+                Pool requestPool = RequestPool(entry.PoolName, entry.Prefab, entry.DefaultSize);
+                requestPool.ScheduleCleanEverySeconds(5, 2);
+                requestPool.PoolCleaned += (pool, b) => Debug.Log($"Pool Cleaned with: {b}");
             }
         }
 
